@@ -1,0 +1,22 @@
+--- 
+   -name: "Writing a play to deploy hello world application"
+    hosts: webserver
+    user: ubuntu
+    become: true
+    become_user: root
+    gather_facts: no
+    vars:
+      servicea: apache2
+      paths: /var/www/html/
+    tasks:
+      - name: "Install apache2"
+        apt: name={{servicea}} state=installed
+
+      - name: "Copy my code to {{paths}}"
+        copy: src=index.html dest={{paths}}
+
+      - name: "restart apache2"
+        service: name={{servicea}} state=restarted
+
+
+
