@@ -1,0 +1,45 @@
+---
+ - name: "Writing a play to deploy hello world application"
+   hosts:  apache
+   user: ec2-user
+   become: true
+   become_user: root
+   gather_facts: no
+   vars:
+     servicea: nginx
+     paths: /var/www/html/
+
+   tasks:
+     - name: "Install nginx"
+       yum: name={{servicea}} state=installed
+
+     - name: "Copy my code to {{paths}}"
+       copy: src=index.html dest={{paths}}
+
+     - name: "restart nginx"
+       service: name={{servicea}} state=restarted
+
+     #- name: "download epel repo"
+     #  get_url:
+     #    url: https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+     #    dest: /var/lib/yum/repos/
+
+     # - name: "rpm extract"
+     #  command: rpm -ivh /var/lib/yum/repos/*.rpm
+
+     - name: "install pip"
+       yum: name=python-pip state=installed
+
+     #- name: "Add repo"
+      # get_url:
+       #  url:  https://dl.eff.org/certbot-auto
+        # dest: /home/ec2-user/
+         
+     #- name: " update "
+      # command: yum update
+
+     - name: " install certbot "
+       yum:
+         name: python-certbot-nginx
+         state: installed
+

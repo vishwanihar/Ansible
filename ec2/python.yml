@@ -1,0 +1,11 @@
+---
+ - name: "install python"
+   hosts: webserver
+   user: ubuntu
+   become: true
+   become_user: root
+   gather_facts: no
+
+   tasks:
+     - name: "install python"
+       yum: name= python state=installed

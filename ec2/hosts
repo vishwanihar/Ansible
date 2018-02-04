@@ -1,0 +1,3 @@
+[apache]
+
+34.226.249.54 ansible_ssh_user=ec2-user
