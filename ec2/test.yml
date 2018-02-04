@@ -1,0 +1,6 @@
+---
+
+tasks:
+
+  - wait_for: host=52.54.74.160 port=22
+    delegate_to: localhost
