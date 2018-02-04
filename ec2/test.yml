@@ -1,6 +1,12 @@
 ---
+ - name: "testing"
+   hosts: apache
 
-tasks:
+   tasks:
 
-  - wait_for: host=52.54.74.160 port=22
-    delegate_to: localhost
+   - action: uri url=http://ip-172-31-13-95.ec2.internal=yes
+     register: webpage
+
+   - fail: msg='service is not available'
+     when: "'Hello world' not in webpage.content"
+
