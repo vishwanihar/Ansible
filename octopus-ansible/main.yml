@@ -1,0 +1,7 @@
+---
+- name: octopus tentacle config
+  hosts: give your vm ip here
+  gather_facts: no
+
+  roles:
+    - octopus-config 

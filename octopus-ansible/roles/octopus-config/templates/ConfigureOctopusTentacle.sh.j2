@@ -1,0 +1,13 @@
+#!/bin/bash
+
+hostname="{{ ansible_host }}"
+serverUrl="{{ octopusHost }}"
+apiKey="{{ octopusAPIKey }}"
+localIp="{{ ansible_default_ipv4.address }}"
+environment="{{ octopusEnvironment }}"
+accountId="{{ octopusSSHAccount }}"
+fingerprint=$(ssh-keygen -E md5 -lf /etc/ssh/ssh_host_rsa_key.pub | cut -d' ' -f2 | cut -d: -f2- | awk ' { print $1}') #MD5
+machineName="{{ ansible_hostname }}"
+roles="{{ octopusRoleEnvironment|join(',') }}"
+
+dotnet script ConfigureSSHTentacle.csx -- "$serverUrl" "$apiKey" "$environment" "$hostname" "$localIp" "$fingerprint" "$accountId" "$roles"

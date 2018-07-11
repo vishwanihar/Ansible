@@ -1,0 +1,21 @@
+- name: "Copy ConfigureSSHTentacle.csx to {{ ansible_host }}"
+  copy:
+    src: ConfigureSSHTentacle.csx
+    dest: /tmp/ConfigureSSHTentacle.csx
+    mode: u+rwx
+  register: octoinstallscript
+
+- name: "Copy ConfigureOctopusTentacle.sh to {{ ansible_host }}"
+  template:
+    src: ConfigureOctopusTentacle.sh.j2
+    dest: /tmp/ConfigureOctopusTentacle.sh
+    mode: u+rwx
+  register: octoconfig
+  tags: octo
+
+- name: Run ConfigureOctopusTentacle.sh
+  shell: ./ConfigureOctopusTentacle.sh
+  args:
+    chdir: /tmp/
+  when: octoconfig.changed or octoinstallscript.changed
+  tags: octo
